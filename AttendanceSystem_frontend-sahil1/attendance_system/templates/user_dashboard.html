@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            margin: 50px auto;
+            width: 80%;
+        }
+        h1 {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, User!</h1>
+        <p>Email: {{ user_data.email }}</p>
+        <p>Role: {{ user_data.role }}</p>
+        <a href="{% url 'login' %}">Logout</a>
+    </div>
+</body>
+</html>

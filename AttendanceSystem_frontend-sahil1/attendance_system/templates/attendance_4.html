@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f8f8;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #b3b3b4;
+            height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: 40px;
+        }
+
+        .logo-q {
+            width: 40px;
+            height: auto;
+            filter: brightness(0) invert(0);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 70px;
+        }
+
+        .menu li {
+            padding: 10px 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .menu li.active {
+            background: black;
+            color: white;
+        }
+
+        .menu li.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        .menu li:hover {
+            background: grey;
+        }
+
+        .menu li img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(0);
+        }
+
+        .menu-title {
+            color: rgb(72, 68, 68);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .sidebar .bottom {
+            padding-top: 20px;
+        }
+
+        .sidebar-line {
+            content: "";
+            width: 80%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            margin: 2px auto;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: calc(100% - 250px);
+            margin-left: 250px;
+            position: relative;
+        }
+
+        .top-right-profile {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: #b9b3b3;
+            padding: 10px 15px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            width: 250px;
+            height: 30px;
+            gap: 10px;
+        }
+
+        .top-right-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .top-right-info h4 {
+            margin: 0;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .top-right-info p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .card {
+            background: #21564B;
+            padding: 20px;
+            border-radius: 15px;
+            width: 450px;
+            height: 250px;
+            text-align: center;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .top-left-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: absolute;
+            top: -150px;
+            left: -200px;
+            font-size: 20px;
+            color: black;
+        }
+
+        .back-arrow {
+            color: black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .back-arrow:hover {
+            color: #333;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .profile-section img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 50px;
+        }
+        
+        .user-details {
+            margin-right: 90px;
+        }
+
+        .user-details h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .time {
+            font-size: 18px;
+        }
+
+        .status {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-right: 100px;
+        }
+
+        .success-icon {
+            background: #4CAF50;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            color: white;
+        }
+
+        .share-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        // Redirect after 5 minutes (300,000 milliseconds)
+        setTimeout(function() {
+            window.location.href = "/login/";  // Change to your actual login URL
+        }, 300000);
+    </script>
+    
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 class="logo">
+            {% load static %}
+            <img src="{% static 'images/quickhire.png' %}" alt="Q" class="logo-q">
+            <span class="logo-text">UICKHIRE</span>
+        </h2>
+        <div class="sidebar-line"></div>
+        
+        <ul class="menu">
+            <h4 class="menu-title">MENU</h4>
+            {% load static %}
+            <li class="active"><img src="{% static 'images/dashboard.png' %}" alt="Dashboard">Dashboard</li>
+            <li><img src="{% static 'images/projects.png' %}" alt="Projects"> Projects</li>
+            <li><img src="{% static 'images/analytics.png' %}" alt="Analytics"> Analytics</li>
+            <li><img src="{% static 'images/reports.png' %}" alt="Reports"> Reports</li>
+            <li><img src="{% static 'images/extension.png' %}" alt="Extensions"> Extensions</li>
+            <li><img src="{% static 'images/employee.png' %}" alt="Employees"> Employees</li>
+            <li><img src="{% static 'images/task.png' %}" alt="Tasks"> Tasks</li>
+            <li><img src="{% static 'images/attendance.png' %}" alt="Attendance"> Attendance</li>
+            <li><img src="{% static 'images/setting.png' %}" alt="Settings"> Settings</li>
+            <li><img src="{% static 'images/logout.png' %}" alt="Logout"> Log Out</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="top-right-profile">
+            <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
+            <div class="top-right-info">
+                <h4>The invinsible</h4>
+                <p>theinvinsible159@icloud.com</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="top-left-menu">
+                <a href="#" onclick="redirectToAttendance1()" class="back-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                Mark Attendance
+            </h2>
+
+            <div class="profile-section">
+                {% load static %}
+                <img src="{% static 'images/kumar_photo.jpg' %}" alt="Avtar">
+                <div class="user-details">
+                    <h2>Kumar</h2>
+                    <p class="time" id="current-time">--:--:--</p>
+
+                </div>
+            </div>
+            <p class="status">Check In Confirmed</p>
+            <div class="success-icon">&#10004;</div>
+            <div class="share-icon">&#128279;</div>
+        </div>
+    </div>
+    <script>
+
+        function redirectToAttendance1() {
+            window.location.href = "attendance1.html";  // Change URL if needed
+        }
+
+        function updateTime() {
+            let now = new Date();
+            let timeString = now.toLocaleTimeString();
+            document.getElementById("current-time").innerText = timeString;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        let shiftStarted = false;
+        let shiftStartTime;
+        const shiftDuration = 10 * 1000; // 8 hours in milliseconds
+
+        document.querySelector(".success-icon").addEventListener("click", function () {
+            if (!shiftStarted) {
+                shiftStartTime = new Date().getTime();
+                shiftStarted = true;
+                localStorage.setItem("shiftStart", shiftStartTime);
+                alert("Shift Started!");
+                setTimeout(endShift, shiftDuration);
+            }
+        });
+
+        function endShift() {
+            alert("Shift Completed!");
+            sendOvertimeEmail();
+            window.location.href = "/attendance1/";
+        }
+
+        function sendOvertimeEmail() {
+            fetch("/send-overtime-email/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: "kumarborkar@icloud.com" })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html> 

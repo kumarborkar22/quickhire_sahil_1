@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            display: flex;
+            margin: 0;
+            background: white;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #b3b3b4;
+            height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: 40px;
+        }
+
+        .logo-q {
+            width: 40px;
+            height: auto;
+            filter: brightness(0) invert(0);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 70px;
+        }
+
+        .menu li {
+            padding: 10px 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .menu li.active {
+            background: black;
+            color: white;
+        }
+
+        .menu li.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        .menu li img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(0);
+        }
+
+        .menu-title {
+            color: rgb(72, 68, 68);
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .sidebar-line {
+            content: "";
+            width: 80%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            margin: 2px auto;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            color: black;
+            width: 90%;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .top-right-profile {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: #b9b3b3;
+            padding: 10px 15px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            width: 15%;
+            height: 30px;
+            gap: 10px;
+        }
+
+        .top-right-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .top-right-info h4 {
+            margin: 0;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .top-right-info p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .top-left-menu {
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            width: 50%;
+            height: 50px;
+            gap: 30px;
+            margin-top: 80px;
+            margin-right: 900px;
+        }
+
+        .camera-box {
+            width: 100%;
+            height: 400px;
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #video-feed, #captured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 25px;
+        }
+
+        #captured-image {
+            display: none;
+            margin-bottom: 400px;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        .capture-btn, .retake-btn , .confirm-btn{
+            background: rgb(81, 172, 81);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .retake-btn {
+            background: rgb(205, 33, 33);
+            display: none;
+        }
+
+        .confirm-btn {
+            background: royalblue;
+            display: none;
+        }
+
+        .top-left-menu{
+            margin-bottom: 100px;
+        }
+
+        .top-left-menu{
+            margin-top: 10px;
+            margin-left: 200px;
+        }
+
+        .back-arrow {
+            color: black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .back-arrow:hover {
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 class="logo">
+            {% load static %}
+            <img src="{% static 'images/quickhire.png' %}" alt="Q" class="logo-q">
+            <span class="logo-text">UICKHIRE</span>
+        </h2>
+        <div class="sidebar-line"></div>
+        
+        <ul class="menu">
+            <h4 class="menu-title">MENU</h4>
+            {% load static %}
+            <li class="active"><img src="{% static 'images/dashboard.png' %}" alt="Dashboard">Dashboard</li>
+            <li><img src="{% static 'images/projects.png' %}" alt="Projects"> Projects</li>
+            <li><img src="{% static 'images/analytics.png' %}" alt="Analytics"> Analytics</li>
+            <li><img src="{% static 'images/reports.png' %}" alt="Reports"> Reports</li>
+            <li><img src="{% static 'images/extension.png' %}" alt="Extensions"> Extensions</li>
+            <li><img src="{% static 'images/employee.png' %}" alt="Employees"> Employees</li>
+            <li><img src="{% static 'images/task.png' %}" alt="Tasks"> Tasks</li>
+            <li><img src="{% static 'images/attendance.png' %}" alt="Attendance"> Attendance</li>
+            <li><img src="{% static 'images/setting.png' %}" alt="Settings"> Settings</li>
+            <li><img src="{% static 'images/logout.png' %}" alt="Logout"> Log Out</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+
+            <div class="top-right-profile">
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
+                <div class="top-right-info">
+                    <h4>The invinsible</h4>
+                    <p>theinvinsible159@icloud.com</p>
+                </div>
+            </div>
+            <header>
+
+                <h2 class="top-left-menu"><a href="attendance1.html" class="back-arrow"><i class="fa-solid fa-arrow-left"></i></a>Mark Attendance</h2>
+                  
+                <div class="camera-box">
+                    <img id="video-feed" src="{% url 'video_feed' %}" alt="Live Camera Feed">
+                    <img id="captured-image" alt="Captured Image" style="display: none;">
+                </div>
+                <button class="capture-btn" id="capture-btn">Capture <i class="fa-solid fa-camera-retro"></i></button>
+                <button class="retake-btn" id="retake-btn">Retake <i class="fa-solid fa-repeat"></i></button>
+                <button class="confirm-btn" id="confirm-btn">Confirm <i class="fa-solid fa-check"></i></button>
+            </header>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("capture-btn").addEventListener("click", function() {
+    fetch("{% url 'capture_image' %}")
+    .then(response => response.json())
+    .then(data => {
+        if (data.image_url) {
+            let videoFeed = document.getElementById("video-feed");
+            let capturedImage = document.getElementById("captured-image");
+            let captureBtn = document.getElementById("capture-btn");
+            let retakeBtn = document.getElementById("retake-btn");
+            let confirmBtn = document.getElementById("confirm-btn");
+
+            let timestamp = new Date().getTime();
+            capturedImage.src = data.image_url + "?t=" + timestamp;
+            capturedImage.style.display = "block";
+            videoFeed.style.visibility = "hidden";
+
+            captureBtn.style.display = "none";
+            retakeBtn.style.display = "inline-block";
+            confirmBtn.style.display = "inline-block";
+        } else {
+            alert(data.error || "Capture failed!");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+
+
+document.getElementById("retake-btn").addEventListener("click", function() {
+    let videoFeed = document.getElementById("video-feed");
+    let capturedImage = document.getElementById("captured-image");
+    let captureBtn = document.getElementById("capture-btn");
+    let retakeBtn = document.getElementById("retake-btn");
+    let confirmBtn = document.getElementById("confirm-btn");
+
+    capturedImage.style.display = "none";
+    videoFeed.style.visibility = "visible";
+    
+    captureBtn.style.display = "inline-block";
+    retakeBtn.style.display = "none";
+    confirmBtn.style.display = "none";
+
+    let timestamp = new Date().getTime();
+    videoFeed.src = "{% url 'video_feed' %}?t=" + timestamp;
+});
+
+document.getElementById("confirm-btn").addEventListener("click", function() {
+    fetch("{% url 'stop_camera' %}")
+    .then(() => {
+        console.log("Camera stopped");
+        window.location.href = "{% url 'attendance3' %}";
+    })
+    .catch(error => console.error("Error stopping camera:", error));
+});
+
+
+    </script>
+</body>
+</html>

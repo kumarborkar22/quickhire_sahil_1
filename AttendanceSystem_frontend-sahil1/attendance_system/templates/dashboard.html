@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: 'Lucida Sans', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: white; 
+        font-size: 20px;
+    }
+    .container {
+        background: white;
+        color: black;
+        padding: 20px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 1000px;
+    }
+    .top-right-profile {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #f0f0f0;
+        padding: 10px 15px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+        width: 20%;
+        height: 50px;
+        gap: 10px;
+    }
+    .top-right-profile img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .dashboard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+    }
+    .profile-section {
+        width: 50%;
+        text-align: left;
+    }
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .profile img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+    .mark-attendance {
+        margin-top: 20px;
+    }
+    .timer-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+    }
+    .timer-box {
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .logout {
+        margin-top: 20px;
+    }
+    .logout button {
+        background: black;
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="top-right-profile">
+            <img src="{{ profile_picture }}" alt="Profile Picture">
+            <div class="top-right-info">
+                <h1>{{ name }}</h1>
+                <h2>{{ email }}</h2>
+            </div>
+        </div>
+
+        <header class="dashboard">
+            <div class="profile-section">
+                <div class="profile">
+                    <img src="{{ profile_picture }}" alt="Profile Picture">
+                    <div class="profile-info">
+                        <h5 class="normal_text">Good Morning</h5>
+                        <h3>{{ name }}</h3>
+                        <p>{{ email }}</p>
+                        <p>{{ elapsed_time }}</p>
+                    </div>
+                </div>
+                <div class="mark-attendance">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <button type="submit">Mark Attendance</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="timer-section">
+                <div class="timer-box">
+                    <p>Timer</p>
+                    <h5>{{ elapsed_time }}</h5>
+                </div>
+                <div class="logout">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+    </div>
+</body>
+</html>

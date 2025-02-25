@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top left, #8e44ad, #1c1c1c);
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px 40px;
+            border-radius: 12px;
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        input[type="email"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            margin-bottom: 15px;
+            background: #f4f4f4;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="email"]::placeholder, input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #00bfff;
+            border-radius: 25px;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00bfff;
+            color: #000;
+        }
+
+        .resend-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        #resend-link {
+            color: #00bfff;
+            cursor: default;
+        }
+
+        #resend-link.active {
+            cursor: pointer;
+        }
+
+        #resend-link:hover.active {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Forgot Password</h2>
+
+        <form id="forgot-password-form">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter Your Email..." required>
+
+            <button type="button" id="send-otp">Send OTP</button>
+
+            <label for="otp">OTP</label>
+            <input type="text" id="otp" placeholder="Enter 4 Digit OTP.." maxlength="4" required>
+
+            <button type="submit" id="verify-otp">Verify</button>
+        </form>
+
+        <p class="resend-text">
+            Didn't receive the OTP? <span id="resend-link">Resend in <span id="timer">5:00</span>.</span>
+        </p>
+    </div>
+
+    <script>
+        let resendLink = document.getElementById('resend-link');
+        let timerDisplay = document.getElementById('timer');
+        let resendCooldown = 300; // 5 minutes in seconds
+
+        // Start the countdown timer
+        function startTimer() {
+            let timeLeft = resendCooldown;
+
+            const interval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    timerDisplay.textContent = '0:00';
+                    resendLink.textContent = 'Resend OTP';
+                    resendLink.classList.add('active');
+
+                    resendLink.onclick = () => {
+                        alert('OTP Resent!');
+                        resendLink.classList.remove('active');
+                        resendLink.innerHTML = 'Resend in <span id="timer">5:00</span>.';
+                        startTimer();
+                    };
+                }
+
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Initialize timer on page load
+        window.onload = startTimer;
+
+        // Mock form submission (you can replace this with actual backend integration)
+        document.getElementById('forgot-password-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('OTP Verified!');
+        });
+
+        document.getElementById('send-otp').addEventListener('click', function() {
+            alert('OTP Sent to your email!');
+        });
+    </script>
+</body>
+</html>
