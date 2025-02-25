@@ -432,6 +432,7 @@ def capture_image(request):
     return JsonResponse({"error": "Failed to capture image"}, status=500)
 
 
+
 def attendance_records(request):
     records = Attendance.objects.all().order_by('-timestamp')
     return render(request, 'records.html', {'records': records})
@@ -514,18 +515,23 @@ def attendance3(request):
     fullName = user_data["fullName"]
     email = user_data["userName"]
 
+    # Get the captured image URL from the session
+    entry_image = request.session.get("captured_image_url", "/static/default_avatar.jpg")  # Default avatar if no image
+
     # Get the current date and time
     now = datetime.now()
     entry_time = now.strftime("%I:%M %p")  # Format: HH:MM AM/PM
     entry_date = now.strftime("%d/%m/%Y")  # Format: DD/MM/YYYY
 
     return render(request, 'attendance_3.html', {
-        "user_data": user_data,  # Pass user_data as a whole
-        "entry_time": entry_time,  # Separate entry time
-        "entry_date": entry_date,  # Separate entry date
+        "user_data": user_data,
+        "entry_time": entry_time,
+        "entry_date": entry_date,
         "fullName": fullName,
         "email": email,
+        "entry_image": entry_image,  # Pass the image URL to the template
     })
+
 
 
 def attendance1(request):
