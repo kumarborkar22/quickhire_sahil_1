@@ -370,62 +370,29 @@
             </header>
         </div>
     </div>
-
     <script>
-        let shiftTime = 10; // Set shift duration in seconds (for testing)
-        let shiftTimer, overtimeTimer;
-        let shiftSeconds = 0, overtimeSeconds = 0;
-        let shiftRunning = false, overtimeRunning = false;
-
-        // Display current date
-        document.getElementById("current-date").innerText = new Date().toLocaleDateString();
-
-        function startShift() {
-            if (shiftRunning) return; // Prevent duplicate timers
-            shiftRunning = true;
-            document.getElementById("startShift").innerText = "Shift Started";
-
-            shiftTimer = setInterval(() => {
-                shiftSeconds++;
-                document.getElementById("shift-timer").innerText = formatTime(shiftSeconds);
-
-                if (shiftSeconds >= shiftTime) {
-                    clearInterval(shiftTimer);
-                    shiftRunning = false;
-                    askOvertime();
-                }
-            }, 1000);
-        }
-
-        function askOvertime() {
-            let overtimeConfirm = confirm("Your shift is completed! Do you want to continue with overtime?");
-            if (overtimeConfirm) {
-                startOvertime();
-            } else {
-                alert("Shift completed. Logging out...");
+    document.addEventListener("DOMContentLoaded", function () {
+        let shiftCompleted = localStorage.getItem("shiftCompleted");  // ✅ Read stored value
+    
+        document.querySelector(".overtime button").addEventListener("click", function () {
+            if (!shiftCompleted) {
+                alert("Bro, complete the main shift first!");  // 🚨 This was always triggering
+                return;
             }
-        }
-
-        function startOvertime() {
-            if (overtimeRunning) return;
-            overtimeRunning = true;
-            document.getElementById("overtime-timer").style.color = "red";
-
-            overtimeTimer = setInterval(() => {
-                overtimeSeconds++;
-                document.getElementById("overtime-timer").innerText = formatTime(overtimeSeconds);
-            }, 1000);
-        }
-
-        function formatTime(seconds) {
-            let hrs = Math.floor(seconds / 3600);
-            let mins = Math.floor((seconds % 3600) / 60);
-            let secs = seconds % 60;
-            return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-        }
-
-        document.getElementById("startShift").addEventListener("click", startShift);
-    </script>
+    
+            let overtimeStartTime = new Date().getTime();
+            localStorage.setItem("overtimeStart", overtimeStartTime);
+            alert("Overtime Started!");
+    
+            setTimeout(() => {
+                alert("Overtime Completed!");
+                localStorage.removeItem("overtimeStart");
+                localStorage.removeItem("shiftCompleted");  // ✅ Reset shift data after completion
+            }, 10000);
+        });
+    });
+</script>
+    
 
 </body>
 </html>

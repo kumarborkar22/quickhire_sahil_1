@@ -332,6 +332,7 @@
 
         function endShift() {
             alert("Shift Completed!");
+            localStorage.setItem("shiftCompleted", "true");
             sendOvertimeEmail();
             window.location.href = "/attendance1/";
         }
