@@ -646,3 +646,19 @@ def attendance_4(request):
 
 def attendance4(request):
     return render(request, 'attendance/attendance4.html')
+
+from django.shortcuts import render
+from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
+from .models import Attendance
+from .utils import send_shift_end_email
+
+@login_required
+def attendance4(request):
+    user = request.user
+    attendance = Attendance.objects.filter(user=user).last()
+    
+    if attendance and attendance.shift_end_time <= now():
+        send_shift_end_email(user)
+
+    return render(request, 'attendance/attendance4.html')
