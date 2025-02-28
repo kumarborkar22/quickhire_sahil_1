@@ -277,7 +277,12 @@
             </div>
             <header>
 
-                <h2 class="top-left-menu"><a href="attendance1.html" class="back-arrow"><i class="fa-solid fa-arrow-left"></i></a>Mark Attendance</h2>
+                <h2 class="top-left-menu">
+                    <a href="#" onclick="redirecTtoAttendance1()" class="back-arrow">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                    Mark Attendance
+                </h2>
                   
                 <div class="camera-box">
                     <img id="video-feed" src="{% url 'video_feed' %}" alt="Live Camera Feed">
@@ -291,6 +296,10 @@
     </div>
 
     <script>
+        function redirecTtoAttendance1() {   
+            window.location.href = "/attendance1/";
+        }
+
         document.getElementById("capture-btn").addEventListener("click", function() {
     fetch("{% url 'capture_image' %}")
     .then(response => response.json())

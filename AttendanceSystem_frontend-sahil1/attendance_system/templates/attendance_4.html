@@ -235,6 +235,22 @@
             font-size: 18px;
             cursor: pointer;
         }
+
+        .redirect-button {
+    background-color: #fff;
+    color: #21564B;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 350px;
+    margin-left: -320px;
+}
+.redirect-button:hover {
+    background-color: #ddd;
+}
+
     </style>
     <script>
         // Redirect after 5 minutes (300,000 milliseconds)
@@ -300,11 +316,20 @@
             <div class="success-icon">&#10004;</div>
             <div class="share-icon">&#128279;</div>
         </div>
+        <div>
+        <button class="redirect-button" onclick="redirectToNextPage()">Go to Dashboard</button>
+        </div>
     </div>
     <script>
 
         function redirectToAttendance1() {
-            window.location.href = "attendance1.html";  // Change URL if needed
+            window.location.href = "/attendance1/";
+
+        }
+
+        function redirectToNextPage() {
+            window.location.href = "/attendance1/";
+
         }
 
         function updateTime() {
@@ -316,26 +341,26 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        let shiftStarted = false;
-        let shiftStartTime;
-        const shiftDuration = 10 * 1000; // 8 hours in milliseconds
+        // let shiftStarted = false;
+        // let shiftStartTime;
+        // const shiftDuration = 10 * 1000;
 
-        document.querySelector(".success-icon").addEventListener("click", function () {
-            if (!shiftStarted) {
-                shiftStartTime = new Date().getTime();
-                shiftStarted = true;
-                localStorage.setItem("shiftStart", shiftStartTime);
-                alert("Shift Started!");
-                setTimeout(endShift, shiftDuration);
-            }
-        });
+        // document.querySelector(".success-icon").addEventListener("click", function () {
+        //     if (!shiftStarted) {
+        //         shiftStartTime = new Date().getTime();
+        //         shiftStarted = true;
+        //         localStorage.setItem("shiftStart", shiftStartTime);
+        //         alert("Shift Started!");
+        //         setTimeout(endShift, shiftDuration);
+        //     }
+        // });
 
-        function endShift() {
-            alert("Shift Completed!");
-            localStorage.setItem("shiftCompleted", "true");
-            sendOvertimeEmail();
-            window.location.href = "/attendance1/";
-        }
+        // function endShift() {
+        //     alert("Shift Completed!");
+        //     localStorage.setItem("shiftCompleted", "true");
+        //     sendOvertimeEmail();
+        //     window.location.href = "/attendance1/";
+        // }
 
         function sendOvertimeEmail() {
             fetch("/send-overtime-email/", {
@@ -351,20 +376,20 @@
             .catch(error => console.error("Error:", error));
         }
 
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                let cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    let cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + "=")) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
+        // function getCookie(name) {
+        //     let cookieValue = null;
+        //     if (document.cookie && document.cookie !== "") {
+        //         let cookies = document.cookie.split(";");
+        //         for (let i = 0; i < cookies.length; i++) {
+        //             let cookie = cookies[i].trim();
+        //             if (cookie.startsWith(name + "=")) {
+        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     return cookieValue;
+        // }
     </script>
 </body>
 </html> 

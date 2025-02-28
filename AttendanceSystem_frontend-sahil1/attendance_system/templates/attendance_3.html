@@ -267,7 +267,12 @@ ake the above changes here <!DOCTYPE html>
     </div>
 
     <div class="container">
-        <h2 class="top-left-menu"><a href="dashboard.html" class="back-arrow"><i class="fa-solid fa-arrow-left"></i></a>Mark Attendance</h2>
+        <h2 class="top-left-menu">
+            <a href="#" onclick="redirecTtoAttendance1()" class="back-arrow">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            Mark Attendance
+        </h2>
         <div class="top-right-profile">
             <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
             <div class="top-right-info">
@@ -293,5 +298,10 @@ ake the above changes here <!DOCTYPE html>
             <button class="confirm-btn">Confirm Check In <i class="fas fa-check"></i></button>
         </a>
     </div>
+    <script>
+        function redirecTtoAttendance1() {   
+            window.location.href = "/attendance1/";
+        }
+    </script>
 </body>
 </html>
