@@ -8,43 +8,46 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: #fff;
+            background: linear-gradient(to right, #f8f1e4, #e0c3fc);
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            background: rgba(0, 0, 0, 0.85);
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
         }
         .form-control {
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 10px;
             font-size: 14px;
+            border: 1px solid grey;
         }
         .btn-custom {
-            background: #00bfff;
-            color: #000;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
             font-size: 16px;
             padding: 12px;
-            border-radius: 5px;
-            transition: 0.3s;
+            border-radius: 8px;
             width: 100%;
+            transition: 0.3s;
+            border: none;
+            font-weight: bold;
         }
         .btn-custom:hover {
-            background: #008cba;
-            color: #fff;
+            background: linear-gradient(to right, #ff5e62, #ff9966);
+            transform: scale(1.05);
         }
         .form-label {
             font-weight: 500;
         }
         .back-link {
-            color: #00bfff;
+            color: #ff5e62;
             text-decoration: none;
         }
         .back-link:hover {
@@ -68,43 +71,73 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <label for="userName" class="form-label">Email</label>
-            <input type="email" name="userName" id="userName" class="form-control mb-3" required>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Email</label>
+                        <input type="email" name="userName" id="userName" class="form-control" required>
+                    </div>
 
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
 
-            <label for="fullName" class="form-label">Full Name</label>
-            <input type="text" name="fullName" id="fullName" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" name="fullName" id="fullName" class="form-control" required>
+                    </div>
 
-            <label for="phoneNo" class="form-label">Phone Number</label>
-            <input type="text" name="phoneNo" id="phoneNo" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="phoneNo" class="form-label">Phone Number</label>
+                        <input type="text" name="phoneNo" id="phoneNo" class="form-control" required>
+                    </div>
 
-            <label for="joiningDate" class="form-label">Joining Date</label>
-            <input type="date" name="joiningDate" id="joiningDate" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="joiningDate" class="form-label">Joining Date</label>
+                        <input type="date" name="joiningDate" id="joiningDate" class="form-control" required>
+                    </div>
 
-            <label for="profilePic" class="form-label">Profile Picture</label>
-            <input type="file" name="profilePic" id="profilePic" class="form-control mb-3">
+                    <div class="mb-3">
+                        <label for="profilePic" class="form-label">Profile Picture</label>
+                        <input type="file" name="profilePic" id="profilePic" class="form-control">
+                    </div>
+                </div>
 
-            <label for="address" class="form-label">Address</label>
-            <input type="text" name="address" id="address" class="form-control mb-3" required>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" name="address" id="address" class="form-control" required>
+                    </div>
 
-            <label for="salary" class="form-label">Salary</label>
-            <input type="number" name="salary" id="salary" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="salary" class="form-label">Salary</label>
+                        <input type="number" name="salary" id="salary" class="form-control" required>
+                    </div>
 
-            <label for="department" class="form-label">Department</label>
-            <input type="text" name="department" id="department" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" name="department" id="department" class="form-control" required>
+                    </div>
 
-            <label for="shiftStartTime" class="form-label">Shift Start Time</label>
-            <input type="time" name="shiftStartTime" id="shiftStartTime" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label for="shiftStartTime" class="form-label">Shift Start Time</label>
+                        <input type="time" name="shiftStartTime" id="shiftStartTime" class="form-control" required>
+                    </div>
 
-            <label for="shiftEndTime" class="form-label">Shift End Time</label>
-            <input type="time" name="shiftEndTime" id="shiftEndTime" class="form-control mb-3" required>
-            <div class="mb-3 form-check">
-                <input type="hidden" name="enabled" value="0">  <!-- Hidden input to send 0 if unchecked -->
-                <input type="checkbox" name="enabled" class="form-check-input" value="1" checked>
-                <label class="form-check-label">Enabled</label>
+                    <div class="mb-3">
+                        <label for="shiftEndTime" class="form-label">Shift End Time</label>
+                        <input type="time" name="shiftEndTime" id="shiftEndTime" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="hidden" name="enabled" value="0">
+                        <input type="checkbox" name="enabled" class="form-check-input" value="1" checked>
+                        <label class="form-check-label">Enabled</label>
+                    </div>
+                </div>
             </div>
+
             <button type="submit" class="btn btn-custom"><i class="fas fa-plus-circle"></i> Create Admin</button>
         </form>
 
