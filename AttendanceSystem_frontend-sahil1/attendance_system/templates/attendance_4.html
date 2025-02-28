@@ -341,55 +341,22 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // let shiftStarted = false;
-        // let shiftStartTime;
-        // const shiftDuration = 10 * 1000;
+        document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        let shiftStartTime = sessionStorage.getItem("shiftStartTime");
 
-        // document.querySelector(".success-icon").addEventListener("click", function () {
-        //     if (!shiftStarted) {
-        //         shiftStartTime = new Date().getTime();
-        //         shiftStarted = true;
-        //         localStorage.setItem("shiftStart", shiftStartTime);
-        //         alert("Shift Started!");
-        //         setTimeout(endShift, shiftDuration);
-        //     }
-        // });
-
-        // function endShift() {
-        //     alert("Shift Completed!");
-        //     localStorage.setItem("shiftCompleted", "true");
-        //     sendOvertimeEmail();
-        //     window.location.href = "/attendance1/";
-        // }
-
-        function sendOvertimeEmail() {
-            fetch("/send-overtime-email/", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: "kumarborkar@icloud.com" })
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error("Error:", error));
+        if (shiftStartTime) {
+            let elapsedTime = Date.now() - parseInt(shiftStartTime, 10);
+            
+            if (elapsedTime >= 10000) {
+                alert("Shift Completed!");
+                sessionStorage.removeItem("shiftStartTime");
+            }
         }
+    }, 1000);
+});
 
-        // function getCookie(name) {
-        //     let cookieValue = null;
-        //     if (document.cookie && document.cookie !== "") {
-        //         let cookies = document.cookie.split(";");
-        //         for (let i = 0; i < cookies.length; i++) {
-        //             let cookie = cookies[i].trim();
-        //             if (cookie.startsWith(name + "=")) {
-        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     return cookieValue;
-        // }
+    //check kumar why alert is not able to see on 4th page...
     </script>
 </body>
 </html> 
