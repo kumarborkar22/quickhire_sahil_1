@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #b3b3b4;
+            height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-left: 40px;
+        }
+
+        .logo-q {
+            width: 40px;
+            height: auto;
+            filter: brightness(0) invert(0);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sidebar .bottom {
+            padding-top: 20px;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 70px;
+        }
+
+        .menu li {
+            padding: 10px 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .menu li.active {
+            background: black;
+            color: white;
+        }
+
+        .menu li.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        .menu li:hover {
+            background: grey;
+        }
+
+        .menu li img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(0);
+        }
+
+        .menu-title {
+            color: rgb(72, 68, 68);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card, .stats-card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 48%;
+        }
+
+        .profile-card img {
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .profile-card{
+            height: 150px;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            height: 35vh;
+            padding: 20px;
+            margin-top: -10px;
+        }
+
+        .chart-container {
+            width: 50%;
+            height: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-controls select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .entries-container {
+            background: white;
+            margin: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-height: 28vh;
+            overflow-y: auto;
+            margin-top: 50px;
+        }
+
+        .entries-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 18px;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(16px);
+        }
+
+        .filter-section select,
+        .filter-section input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-left: 5px;
+        }
+
+        .entries-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .entries-table th,
+        .entries-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }      
+
+        .entries-table th {
+            background-color: #f4f4f4;
+        }
+
+        #viewMoreBtn {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-left: 50%;
+        }
+
+        .id {
+            color: blue;
+            font-weight: bold;
+        }
+
+        #viewMoreBtn:hover {
+            background: #0056b3;
+        }
+        .red { color: red; }
+        .green { color: green; }
+        .blue { color: blue; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="logo">
+            {% load static %}
+            <img src="{% static 'images/quickhire.png' %}" alt="Q" class="logo-q">
+            <span class="logo-text">UICKHIRE</span>
+        </h2>
+        <div class="sidebar-line"></div>
+        
+        <ul class="menu">
+            <h4 class="menu-title">MENU</h4>
+            {% load static %}
+            <li class="active"><img src="{% static 'images/dashboard.png' %}" alt="Dashboard">Dashboard</li>
+            <li><img src="{% static 'images/projects.png' %}" alt="Projects"> Projects</li>
+            <li><img src="{% static 'images/analytics.png' %}" alt="Analytics"> Analytics</li>
+            <li><img src="{% static 'images/reports.png' %}" alt="Reports"> Reports</li>
+            <li><img src="{% static 'images/extension.png' %}" alt="Extensions"> Extensions</li>
+            <li><img src="{% static 'images/employee.png' %}" alt="Employees"> Employees</li>
+            <li><img src="{% static 'images/task.png' %}" alt="Tasks"> Tasks</li>
+            <li><img src="{% static 'images/attendance.png' %}" alt="Attendance"> Attendance</li>
+            <li><img src="{% static 'images/setting.png' %}" alt="Settings"> Settings</li>
+            <li><img src="{% static 'images/logout.png' %}" alt="Logout"> Log Out</li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="top-section">
+            <div class="profile-card">
+                <img src="profile.png" alt="Profile" class="profile-img">
+                <p><strong>Pratik</strong> | ID: <span class="id">126</span></p>
+            </div>
+            <div class="stats-card">
+                <p>Total Working Hours: <span>50</span></p>
+                <p>Total Leaves Taken: <span class="red">10</span></p>
+                <p>Total Present Days: <span class="green">40</span></p>
+                <p>Total Overtime Hours: <span class="blue">19</span></p>
+            </div>
+        </div>
+        <div class="charts">
+            <div class="chart-container">
+                <div class="filter-controls">
+                    <!-- <label for="year">Select Year:</label> -->
+                    <select id="year">
+                        <option>2025</option>
+                        <option>2024</option>
+                    </select>
+                    <!-- <label for="filter">Filter By:</label> -->
+                    <select id="filter">
+                        <option>Yearly</option>
+                        <option>Monthly</option>
+                    </select>
+                </div>
+                <canvas id="attendanceChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="payrollChart"></canvas>
+            </div>
+        </div>
+        
+
+        <div class="entries-container">
+            <div class="entries-header">
+                <h2>Entries</h2>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="presentOnlyToggle">
+                    <span class="slider"></span>
+                </label>
+                <span>Present only</span>
+        
+                <div class="filter-section">
+                    <label for="filter">Filter by</label>
+                    <select id="filter">
+                        <option>Time</option>
+                        <option>Date</option>
+                        <option>KPI</option>
+                    </select>
+                    <input type="text" id="search" placeholder="Search">
+                </div>
+            </div>
+        
+            <table class="entries-table">
+                <thead>
+                    <tr>
+                        <th>Dates</th>
+                        <th>Status</th>
+                        <th>Log-in Time</th>
+                        <th>Log-out Time</th>
+                        <th>KPI</th>
+                        <th>More</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        
+            <button id="viewMoreBtn">View more</button>
+        </div>
+    </div>
+    <script>
+        const ctx1 = document.getElementById('attendanceChart').getContext('2d');
+            new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: [30, 40, 50, 60, 88, 45],
+                        backgroundColor: '#4c8bf5'
+                    }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const ctx2 = document.getElementById('payrollChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Overtime', 'Leaves'],
+                datasets: [{
+                    data: [19, 10],
+                    backgroundColor: ['#4c8bf5', '#f54c4c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const tableBody = document.getElementById("tableBody");
+        const presentOnlyToggle = document.getElementById("presentOnlyToggle");
+        const viewMoreBtn = document.getElementById("viewMoreBtn");
+
+        let entries = [
+            { date: "2025-04-10", status: "Present", login: "09:15:00", logout: "17:45:00", kpi: "7.5%" },
+            { date: "2025-04-10", status: "Present", login: "09:15:00", logout: "17:45:00", kpi: "7.5%" },
+            { date: "2025-04-10", status: "Absent", login: "-", logout: "-", kpi: "-" },
+            { date: "2025-04-10", status: "Present", login: "09:15:00", logout: "17:45:00", kpi: "7.5%" },
+        ];
+
+        function renderTable(filterPresent = false) {
+            tableBody.innerHTML = "";
+
+            entries.forEach(entry => {
+                if (filterPresent && entry.status !== "Present") return;
+
+                let row = `<tr>
+                    <td>${entry.date}</td>
+                    <td>${entry.status}</td>
+                    <td>${entry.login}</td>
+                    <td>${entry.logout}</td>
+                    <td>${entry.kpi}</td>
+                    <td>⬇</td>
+                </tr>`;
+
+                tableBody.innerHTML += row;
+            });
+        }
+
+        renderTable();
+
+        presentOnlyToggle.addEventListener("change", () => {
+            renderTable(presentOnlyToggle.checked);
+        });
+
+        viewMoreBtn.addEventListener("click", () => {
+            entries.push(
+                { date: "2025-04-11", status: "Present", login: "09:00:00", logout: "17:30:00", kpi: "8.0%" },
+                { date: "2025-04-11", status: "Absent", login: "-", logout: "-", kpi: "-" }
+            );
+            renderTable(presentOnlyToggle.checked);
+        });
+    });
+    </script>
+</body>
+</html>
