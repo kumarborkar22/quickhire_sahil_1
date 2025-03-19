@@ -303,6 +303,38 @@ ake the above changes here <!DOCTYPE html>
             window.location.href = "/attendance1/";
         }
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".confirm-btn").addEventListener("click", function () {
+        alert("Shift Started!");
+
+        // Store the shift start time instead of using 'true'/'false'
+        sessionStorage.setItem("shiftStartTime", Date.now());
+
+        window.location.href = "/attendance4/"; // Redirect immediately
+    });
+});
+
+
+
+
+
+
+
+        function sendOvertimeEmail() {
+            fetch("/send-overtime-email/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: "kumarborkar@icloud.com" })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+        }
+
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== "") {
