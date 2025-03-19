@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - QuickHire</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        display: flex;
+        margin: 0;
+        background: white;
+        overflow: hidden;
+    }
+
+    .sidebar {
+        width: 250px;
+        background: #b3b3b4;
+        height: 100vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        margin-left: 40px;
+    }
+
+    .logo-q {
+        width: 40px;
+        height: auto;
+        filter: brightness(0) invert(0);
+    }
+
+    .logo-text {
+        font-size: 22px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .sidebar h2 {
+        font-size: 22px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .menu {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 70px;
+    }
+
+    .menu li {
+        padding: 10px 15px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
+    .menu li.active {
+        background: black;
+        color: white;
+    }
+
+    .menu li.active img {
+        filter: brightness(0) invert(1);
+
+    }
+
+    .menu li:hover {
+        background: grey;
+    }
+
+    .menu li img {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) invert(0);
+    }
+
+    .menu-title {
+        color: rgb(72, 68, 68);
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .sidebar .bottom {
+        padding-top: 20px;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background: white;
+        color: black;
+        padding: 20px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 1000px;
+    }
+
+    .top-right-profile {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        background: #b9b3b3;
+        padding: 10px 15px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+        width: 15%;
+        height: 30px;
+        gap: 10px;
+    }
+
+    .top-right-profile img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .top-right-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+        line-height: 1.2;
+    }
+
+    .top-right-info h4,
+    .top-right-info p {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+    }
+
+    .dashboard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        margin-bottom: 200px;
+    }
+
+    .dashboard::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        height: 80%;
+        width: 2px;
+        background-color: rgba(0, 0, 0, 0.2);
+        transform: translateX(-50%);
+    }
+
+    .profile-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+        width: 50%;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .profile img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+    }
+
+    .profile .normal_text {
+        color: grey;
+    }
+
+    .mark-attendance {
+        margin-top: 20px;
+    }
+
+    .mark-attendance a {
+        text-decoration: none;
+    }
+
+    .mark-attendance button {
+        background: rgb(81, 172, 81);
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mark-attendance button::after {
+        content: '✔';
+        font-size: 14px;
+    }
+
+    .timer-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+    }
+
+    .timer-container {
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+    }
+
+    .timer-box, .overtime-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .timer-box h5, .overtime-box h5 {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .overtime-box h5 {
+        color: red;
+    }
+
+    .logout {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .logout button {
+        background: black;
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .overtime {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .overtime button {
+        background: red;
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        font-size: 22px;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .sidebar-line {
+        content: "";
+        width: 80%;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin: 2px auto;
+    }
+</style>
+<body>
+
+    <div class="sidebar">
+        <h2 class="logo">
+            {% load static %}
+            <img src="{% static 'images/quickhire.png' %}" alt="Q" class="logo-q">
+            <span class="logo-text">UICKHIRE</span>
+        </h2>
+        <div class="sidebar-line"></div>
+        
+        <ul class="menu">
+            <h4 class="menu-title">MENU</h4>
+            {% load static %}
+            <li class="active"><img src="{% static 'images/dashboard.png' %}" alt="Dashboard">Dashboard</li>
+            <li><img src="{% static 'images/projects.png' %}" alt="Projects"> Projects</li>
+            <li><img src="{% static 'images/analytics.png' %}" alt="Analytics"> Analytics</li>
+            <li><img src="{% static 'images/reports.png' %}" alt="Reports"> Reports</li>
+            <li><img src="{% static 'images/extension.png' %}" alt="Extensions"> Extensions</li>
+            <li><img src="{% static 'images/employee.png' %}" alt="Employees"> Employees</li>
+            <li><img src="{% static 'images/task.png' %}" alt="Tasks"> Tasks</li>
+            <li><img src="{% static 'images/attendance.png' %}" alt="Attendance"> Attendance</li>
+            <li><img src="{% static 'images/setting.png' %}" alt="Settings"> Settings</li>
+            <li><img src="{% static 'images/logout.png' %}" alt="Logout"> Log Out</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="top-right-profile">
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
+                <div class="top-right-info">
+                    <h4>The invinsible</h4>
+                    <p>theinvinsible159@icloud.com</p>
+                </div>
+            </div>  
+
+            <header class="dashboard">
+                <div class="profile-section">
+                    <div class="profile">
+                        <img src="{% static 'images/kumar_photo.jpg' %}" alt="Profile Picture">
+                        <div class="profile-info">
+                            <h5 class="normal_text">WELCOME</h5>
+                            <p>Username: {{ fullName}}</p>
+                            <p>Email: {{ email }}</p>
+                            <p>{{ current_datetime }}</p>
+                        </div>
+                    </div>
+                    <div class="mark-attendance">
+                        <a href = "/home/"><button>Checkout</button></a>
+                    </div>
+                </div>
+
+                <div class="timer-section">
+                    <!-- <div class="timer-container">
+                        <div class="timer-box">
+                            <p>Timer</p>
+                            <h5>00:00:00</h5>
+                        </div>
+                        <div class="overtime-box">
+                            <p>Overtime</p>
+                            <h5>00:00:00</h5>
+                        </div>
+                    </div> -->
+                    <!-- <div class="overtime">
+                        <button>OverTime</button>
+                    </div>
+                    <div class="logout">
+                        <button>Check Out</button>
+                    </div> -->
+                </div>
+            </header>
+        </div>
+    </div>
+</body>
+</html>
